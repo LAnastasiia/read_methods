@@ -5,7 +5,6 @@
 #include <fstream>
 #include <vector>
 #include <bits/stdc++.h>
-#include<string.h>
 
 
 
@@ -32,13 +31,30 @@ int read_word_by_word(const std::string &file_name){
     return -1;
 }
 
+int read_copy_iterate(const std::string &file_name){
+    using std::cout;
+    using std::endl;
+    using std::string;
+
+    std::ifstream in_file(file_name);
+    if (in_file.is_open() )
+    {
+        auto s = std::string{};
+        std::copy_if(std::istreambuf_iterator<char>{in_file},     // copy text from buffer into s
+                     std::istreambuf_iterator<char>{},
+                     std::back_inserter(s),
+                     [](auto c) { return ! isspace (c); });       // predicate - (lambda-func 1 if char is not a space)
+        return int (s.length());     // boost::numeric_cast<int>(s.length());
+    }
+}
+
 
 int main() {
     using std::cout;
     using std::endl;
     using std::string;
 
-    std::cout << read_word_by_word("in_data.txt")<< std::endl;
+    std::cout << read_copy_iterate("in_data.txt")<< std::endl;
     return 0;
 }
 
