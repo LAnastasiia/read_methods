@@ -44,6 +44,19 @@ int basis() {
     return 0;
 }
 
+//        for (std::vector<string>::const_iterator i = words.begin(); i != words.end(); ++i)
+//            std::cout << *i << ' ';
+
+
+/*
+    std::cout << read_copy_iterate("in_data_big.txt")<< std::endl;
+    std::cout << read_into_ostream("in_data.txt")<< std::endl;
+
+    auto content = std::string{"ert"};
+    std::cout << *std::istreambuf_iterator<char>{in_file} << std::endl;
+    std::vector<string> words;
+*/
+
 
 
 

@@ -8,7 +8,7 @@
 
 
 
-// Read file word-by-word and return (int) the total length of words read.     | (-1) if file couldn't be opened
+// Read file word-by-word and return (size_t) the total length of words read.     | (-1) if file couldn't be opened
 int read_word_by_word(const std::string &file_name){
     using std::cout;
     using std::endl;
@@ -16,20 +16,20 @@ int read_word_by_word(const std::string &file_name){
 
     std::ifstream in_file(file_name);
 
-    if ( in_file.is_open() ){
+    if (in_file.is_open() && !in_file.rdstate()){
 
+        int s_len =0;
         std::string word;
-        int s_len = 0;
 
         while (in_file >> word)
-        {
-            s_len += word.length();
-            if (in_file.rdstate() == std::ios::eofbit) { return s_len; }
-        }
+            { s_len += word.length(); }
+
         in_file.close();
-    }
-    return -1;
+        return s_len;
+
+    } else { return -1;}
 }
+
 
 int read_copy_iterate(const std::string &file_name){
     using std::cout;
@@ -37,14 +37,32 @@ int read_copy_iterate(const std::string &file_name){
     using std::string;
 
     std::ifstream in_file(file_name);
-    if (in_file.is_open() )
+    if (in_file.is_open() && !in_file.rdstate())
     {
-        auto s = std::string{};
-        std::copy_if(std::istreambuf_iterator<char>{in_file},     // copy text from buffer into s
+        auto content_str = std::string{};
+        std::copy_if(std::istreambuf_iterator<char>{in_file},     // copy non-space text from buffer into content_str
                      std::istreambuf_iterator<char>{},
-                     std::back_inserter(s),
+                     std::back_inserter(content_str),
                      [](auto c) { return ! isspace (c); });       // predicate - (lambda-func 1 if char is not a space)
-        return int (s.length());     // boost::numeric_cast<int>(s.length());
+        in_file.close();
+        return int (content_str.length());     // boost::numeric_cast<int>(content_str.length());
+    }
+}
+
+int read_into_ostream(const std::string &file_name) {
+    using std::cout;
+    using std::endl;
+    using std::string;
+
+    std::ifstream in_file(file_name);
+    if (in_file.is_open() && !in_file.rdstate()){
+
+        auto content_str = std::string{};
+        auto content_stream = std::ostringstream{};         // initialize another stream
+
+        content_stream << in_file.rdbuf();                  // assign to a pointer to a stream buffer object
+
+        std::cout << content_stream.str() << std::endl;
     }
 }
 
@@ -54,47 +72,8 @@ int main() {
     using std::endl;
     using std::string;
 
-    std::cout << read_copy_iterate("in_data.txt")<< std::endl;
+    std::cout << read_word_by_word("in_data_big.txt")<< std::endl;
+
     return 0;
 }
 
-
-/*
- *  std::cout << typeid(in_file).name() << std::endl;
- *  std::cout << "word:     " << word << std::endl;
- *  std::cout << "bit-flag: " << in_file.rdstate() << '\n' << std::endl;
- *  std::cout << in_file.rdstate() << std::endl;
-    auto content = std::string{"ert"};
-    std::cout << content << std::endl;
-
-
-    std::cout << *std::istreambuf_iterator<char>{in_file} << std::endl;
-
-
-    // Copy read content into the 'content' string
-
-    std::copy(std::istreambuf_iterator<char>{in_file},   // begin ~ ptr on the beginning of a buffer with file contents
-              std::istreambuf_iterator<char>{},          // end ~ ? (next cell after content's end)
-              std::back_inserter(content));
-    std::cout << content << std::endl;
-
-
-    std::cout << "2: " << std::endl;
-
-    std::vector<string> words;
-    string word;
-    in_file >> word;
-    std::cout << word << std::endl;
-*/
-
-
-
-
-
-
-// Get curr dir
-//
-//char buff[FILENAME_MAX];
-//GetCurrentDir( buff, FILENAME_MAX );
-//std::string current_working_dir(buff);
-//std::cout << current_working_dir << std::endl;
