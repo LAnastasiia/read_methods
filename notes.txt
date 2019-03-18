@@ -1,0 +1,10 @@
+Ways to read a file:
+
+    * word by word
+
+    * read_copy_to_str
+                       (istringstream --copy_if--> str)
+
+
+    *
+
