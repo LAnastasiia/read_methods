@@ -1,24 +1,36 @@
 //
-// (5) Read whole file into buffer; Return number of symbols aside from whitespaces.
+// Task(5): Read whole file into memory; Return number of symbols aside from whitespaces.
 
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <unistd.h>
+#include <bits/stdc++.h>
+#include <boost/regex.hpp>
+#include <boost/algorithm/string/erase.hpp>
+#include <boost/numeric/conversion/cast.hpp>
+#include <chrono>
+#include <atomic>
+
+#include <stdexcept>
+#include <string>
+#include <cstdlib>
 
 #include "time_measure.h"
 #include "read methods.h"
 
 
+using namespace std;
+
+
+
 int main(int argc, char *argv[]) {
 
-    int read_method = std::stoi(argv[1]);
-    std::cout << read_method << std::endl;
+    if (argc < 2) { return -1; }
 
-    /*
-    auto start_t = get_current_time_fenced();
-    auto finish_t = get_current_time_fenced();
-    auto process_t = finish_t - start_t;
-
-    std::cout << to_mcs(process_t)<< std::endl;
-    std::cout << to_mls(process_t)<< std::endl;
-    */
+    std::stringstream method_s(argv[1]);
+    int method;
 
     return 0;
 }
@@ -28,3 +40,13 @@ int main(int argc, char *argv[]) {
  * std:stoi;
  * exception for non-text files
  */
+
+
+/*
+auto start_t = get_current_time_fenced();
+auto finish_t = get_current_time_fenced();
+auto process_t = finish_t - start_t;
+
+std::cout << to_mcs(process_t)<< std::endl;
+std::cout << to_mls(process_t)<< std::endl;
+*/
