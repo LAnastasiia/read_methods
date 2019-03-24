@@ -17,7 +17,7 @@ std::map <std::string, function<size_t (const string&)>> method_map = { {"read_w
                                                                         {"read_big_files", &read_big_files} };
 
 
-auto test_one(const std::string method_name,  const std::string &in_filename, const std::string &out_filename="")
+auto _test_one(const std::string& method_name, const std::string &in_filename, const std::string &out_filename = "")
 {
     auto start_t = get_current_time_fenced();                       // Calculate time.
     size_t result = method_map[method_name](in_filename);
@@ -25,21 +25,23 @@ auto test_one(const std::string method_name,  const std::string &in_filename, co
     auto result_t = finish_t - start_t;
 
     if (!out_filename.empty()){                                     // File-Output.
-        std::ofstream out_file(out_filename);
-        out_file << result; out_file << std::endl;
+        std::ofstream out_file(out_filename, std::ios_base::app);
+        out_file << std::endl << result << std::endl;
         out_file.close();
     }
     return result_t;
 }
 
 auto test_all(int expr_num, const std::string &in_filename, const std::string &out_filename=""){
-    std::map < int, std::vector<std::chrono::duration<double>> > results;
+    std::map <int,
+              std::vector<std::chrono::duration<double>> > results;
 
     for(const auto &mi: name_map)
     {
         for (int i=0; i < expr_num; i++) {
-            results[mi.first].emplace_back(test_one(mi.second, in_filename, out_filename));
+            results[mi.first].emplace_back(_test_one(mi.second, in_filename, out_filename));
         }
     }
     return results;
 }
+

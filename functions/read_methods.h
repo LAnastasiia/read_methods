@@ -21,6 +21,10 @@ using boost::numeric_cast;
 using boost::regex;
 
 
+//Check if a file really has a given extension.
+int is_ext(const std::string& filename, const std::string& ext)
+{ return filename.compare(filename.length()-ext.length(), ext.length(), ext); }
+
 
 // Read file word-by-word into vector of strings; return total length of words.        | (-1) if file couldn't be opened
 size_t read_word_by_word(const std::string &file_name)
@@ -45,7 +49,6 @@ size_t read_word_by_word(const std::string &file_name)
 
 
 // Copy non-space symbols one-by-one into content str; return length of content str.   | (-1) if file couldn't be opened
-
 size_t read_copy_to_str(const std::string &file_name)
 {
     std::ifstream in_file(file_name);
