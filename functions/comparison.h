@@ -1,4 +1,4 @@
-//
+
 // Script: Read whole file into memory using 4 different methods; Write results into comparison_out.txt.
 
 #include <iostream>
@@ -32,13 +32,14 @@ auto test_one(const std::string method_name,  const std::string &in_filename, co
     return result_t;
 }
 
-int test_all(int expr_num, const std::string &in_filename, const std::string &out_filename=""){
-    std::map< int, std::vector<std::chrono::duration<double>> > results;
+auto test_all(int expr_num, const std::string &in_filename, const std::string &out_filename=""){
+    std::map < int, std::vector<std::chrono::duration<double>> > results;
 
-    for(const auto &mi: name_map){
-        for (int i=0; i < expr_num; i++){
-            results[mi.first].push_back(test_one(mi.second, in_filename, out_filename));
+    for(const auto &mi: name_map)
+    {
+        for (int i=0; i < expr_num; i++) {
+            results[mi.first].emplace_back(test_one(mi.second, in_filename, out_filename));
         }
-        return 0;
     }
+    return results;
 }

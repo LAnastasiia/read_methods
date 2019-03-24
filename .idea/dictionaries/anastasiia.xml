@@ -2,6 +2,7 @@
   <dictionary name="anastasiia">
     <words>
       <w>istringstream</w>
+      <w>nexp</w>
       <w>ostream</w>
       <w>stoi</w>
       <w>stringstream</w>
